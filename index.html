@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>测评_颜色选择器</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .divColor{
+            overflow: hidden;
+        }
+        .divColor div{
+            float:left;
+            width:20px;
+            height:20px;
+        }
+        .divColor span{
+            display:block;
+            float:left;
+            width:40px;
+            height:25px;
+        }
+        .divColor .clear{
+            height:auto;
+            width:auto;
+            clear:both;
+        }
+        .show{
+            display: flex;
+        }
+        #showColorName{
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        #showColor{
+            width: 300px;
+            height: 30px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <!-- 这样，script写在div中，然后再在里面document.write写出整体结构，这样就不用创建元素然后再添加，麻烦且影响性能 -->
+        <div class="divColor">
+            <script type="text/javascript">
+                /*
+                颜色是十六进制的，直接循环组合就行
+                数字一样则由黑到白
+                16个太多了，这里只取奇数，就可以达到技术测评里面的效果了
+                */
+                var c = 'FDB97531';
+                var begin = 0;
+                for (var i = 0; i < 2; i++) {
+                    // 因为是两行，上面c = '13579BDF'是8个，所以是i * 4
+                    begin = i * 4;
+                    for (var r = 0; r < c.length; r++) {
+                        document.writeln('<div class="clear">');
+                        for (var g = begin; g < begin + 3; g++) {
+                            for (var b = 0; b < c.length; b++) {
+                                var color = '#' + c.charAt(r) + c.charAt(g) + c.charAt(b);
+                                document.write('<div onclick="setColor(\'' + color + '\');" style="background-color:' + color + ';"></div>');
+                            }
+                        }
+                        document.writeln('</div>');
+                    }
+                }
+                document.writeln('<div class="clear" style="margin:10px 0px;">');
+                for (var r = 0; r < c.length; r++) {
+                    var color = '#' + c.charAt(r) + c.charAt(r) + c.charAt(r);
+                    document.write('<span onclick="setColor(\'' + color + '\');" style="background-color:' + color + ';"></span>');
+                }
+                document.writeln('</div>');
+            </script>
+        </div>
+        <div class="show">
+            <div id="showColorName">颜色名称</div>
+            <div id="showColor"></div>
+        </div>
+        <script>
+            // 点击，展示颜色和颜色名称（16进制显示）
+            function setColor(color) {
+                var showColorName = document.getElementById('showColorName');
+                var showColor = document.getElementById('showColor');
+                showColorName.innerText = color;
+                showColor.style.backgroundColor = color;
+            }
+        </script>
+    </div>
+</body>
+</html>
